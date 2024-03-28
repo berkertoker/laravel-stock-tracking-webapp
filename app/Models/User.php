@@ -52,7 +52,7 @@ class User extends Authenticatable
      */
     public function order()
     {
-        return $this->hasOne(Stocks::class);
+        return $this->hasOne(Orders::class);
     }
 
 }

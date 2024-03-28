@@ -21,7 +21,7 @@ class Admin
         }
         else if(Auth::user()->usertype != 'admin'){
             if(Auth::user()->usertype == 'manager'){
-                return redirect('manager/dashboard');
+                return redirect('products');
             }
             else if(Auth::user()->usertype == 'user'){
                 return redirect('dashboard');

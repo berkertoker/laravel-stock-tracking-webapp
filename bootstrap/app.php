@@ -11,15 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-
-        $middleware->alias([
-            'guest' => \App\HTTP\Middleware\UserType::class,
-        ]);
-        $middleware->alias([
-            'manager' => \App\HTTP\Middleware\Manager::class,
-        ]);
         $middleware->alias([
             'admin' => \App\HTTP\Middleware\Admin::class,
+            'manager' => \App\HTTP\Middleware\Manager::class,
         ]);
 
         $middleware->web(append: [

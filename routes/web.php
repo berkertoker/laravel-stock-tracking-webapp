@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminContoller;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Manager\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth', 'verified', 'admin')->group(function () {
-    Route::resource('admin/dashboard', AdminContoller::class);
+    Route::resource('admindashboard', AdminController::class);
+});
+Route::middleware('auth', 'verified', 'manager')->group(function () {
+    Route::resource('products', ProductController::class);
 });
 
 
