@@ -9,7 +9,7 @@ class Stocks extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id	', 'amount'];
+    protected $fillable = ['product_id', 'amount'];
 
     protected $hidden = ['created_at', 'updated_at'];
 
@@ -19,6 +19,6 @@ class Stocks extends Model
      */
     public function product()
     {
-        return $this->belongsTo(ProductImages::class);
+        return $this->belongsTo(Products::class, 'product_id');
     }
 }

@@ -1,63 +1,64 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import ManagerLayout from '@/Layouts/ManagerLayout.vue';
 import {router} from '@inertiajs/vue3'
 
-function destroy(id){
-	router.delete('/products/'+id)
+function destroy(product){
+	router.delete('/products/'+product)
 }
+
 </script>
 
 <template>
-  <AuthenticatedLayout>
-    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
+  <ManagerLayout>
+    <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
         <div class="user-table">
             <div class="user-table-section">
-                <h2>Admin Users <a style=" float: right; margin-right: 10px; color: blue;" :href="route('products.create')">Add New Product</a></h2>
+                <h2>Products <a style=" float: right; margin-right: 10px; color: blue;" :href="route('products.create')">Add New Product</a></h2>
                 <table>
                 <thead>
                     <tr>
                     <th>Image</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Price</th>
+                    <th>Stock</th>
                     <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="product in products" :key="product.id">
-                    <td><img :src="product.image" alt="Product Image"></td>
+                    <td>
+                        <tr v-for="image in products.productImages" :key="image.id">
+                            <img :src="'http://127.0.0.1:8000/storage/images/'+image.url" alt="Product Image">
+                        </tr>
+                    </td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.description }}</td>
+                    <td>{{ product.price }}</td>
                     <td>
-                        <a :href="route('products.edit',products.id)" class="edit-btn">Edit</a>
-                        <button @click.prevent="destroy(products.id)" class="delete-btn">Delete</button>
+                        <span v-if="product.stock">{{ product.stock.amount }}</span>
+                    </td>
+                    <td>
+                        <a :href="route('products.edit',products)" class="edit-btn">Edit</a>
+                        <button @click.prevent="destroy(product.id)" class="delete-btn">Delete</button>
                     </td>
                     </tr>
                 </tbody>
                 </table>
-                <pagination :data="products" @pagination="fetchProducts" />
             </div>
         </div>
+        <!-- {{ $products.links('pagination::default') }} -->
     </div>
-  </AuthenticatedLayout>
+  </ManagerLayout>
 </template>
 
 <script>
-import Pagination from '@/Components/Pagination.vue';
 
 export default {
-  components: {
-    Pagination,
-  },
   props: {
     products: {
       type: Object,
       required: true,
-    },
-  },
-  methods: {
-    fetchProducts(page) {
-      this.$inertia.get(route('route.a'), { page: page });
     },
   },
 };

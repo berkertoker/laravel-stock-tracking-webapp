@@ -1,6 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
 import {router} from '@inertiajs/vue3'
 
 function destroy(id){
@@ -9,7 +8,7 @@ function destroy(id){
 </script>
 
 <template>
-  <AuthenticatedLayout>
+  <AdminLayout>
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
         <div class="user-table">
             <div class="user-table-section">
@@ -33,7 +32,6 @@ function destroy(id){
                     </tr>
                 </tbody>
                 </table>
-                <pagination :data="adminUsers" @pagination="fetchAdminUsers" />
             </div>
 
             <div class="user-table-section">
@@ -57,7 +55,6 @@ function destroy(id){
                     </tr>
                 </tbody>
                 </table>
-                <pagination :data="managerUsers" @pagination="fetchManagerUsers" />
             </div>
 
             <div class="user-table-section">
@@ -82,20 +79,14 @@ function destroy(id){
                     </tr>
                 </tbody>
                 </table>
-                <pagination :data="regularUsers" @pagination="fetchRegularUsers" />
             </div>
         </div>
     </div>
-  </AuthenticatedLayout>
+  </AdminLayout>
 </template>
 
 <script>
-import Pagination from '@/Components/Pagination.vue';
-
 export default {
-  components: {
-    Pagination,
-  },
   props: {
     adminUsers: {
       type: Array,
@@ -108,17 +99,6 @@ export default {
     regularUsers: {
       type: Array,
       required: true,
-    },
-  },
-  methods: {
-    fetchAdminUsers(page) {
-      this.$inertia.get(route('admin.users'), { page: page });
-    },
-    fetchManagerUsers(page) {
-      this.$inertia.get(route('manager.users'), { page: page });
-    },
-    fetchRegularUsers(page) {
-      this.$inertia.get(route('regular.users'), { page: page });
     },
   },
 };

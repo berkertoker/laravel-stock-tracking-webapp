@@ -19,7 +19,7 @@ class Products extends Model
      */
     public function productImages()
     {
-        return $this->hasMany(ProductImages::class);
+        return $this->hasMany(ProductImages::class, 'product_id');
     }
 
     /**
@@ -28,7 +28,7 @@ class Products extends Model
      */
     public function stock()
     {
-        return $this->hasOne(Stocks::class);
+        return $this->hasOne(Stocks::class, 'product_id');
     }
 
 

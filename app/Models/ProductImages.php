@@ -9,7 +9,7 @@ class ProductImages extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'url'];
+    protected $fillable = ['product_id', 'image_name' ,'url'];
 
     protected $hidden = ['created_at', 'updated_at'];
 
@@ -19,6 +19,6 @@ class ProductImages extends Model
      */
     public function product()
     {
-        return $this->belongsTo(Products::class);
+        return $this->belongsTo(Products::class, 'product_id');
     }
 }

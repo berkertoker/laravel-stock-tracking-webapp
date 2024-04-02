@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -20,15 +20,15 @@ const form = useForm({
 </script>
 
 <template>
-    <AuthenticatedLayout>
+    <AdminLayout>
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                     <header>
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Edit User</h2>
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Create New User</h2>
 
                         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                            Update user account's information and email address.
+                            Create user account with account's information and email address.
                         </p>
                     </header>
                     <form @submit.prevent="form.post(route('admindashboard.store'))" class="mt-6 space-y-6">
@@ -66,7 +66,7 @@ const form = useForm({
                         <div>
                             <select
                                 id="usertype"
-                                type="usertype"
+                                type="text"
                                 class="mt-1 block w-full"
                                 v-model="form.usertype"
                                 required
@@ -123,5 +123,5 @@ const form = useForm({
                 </div>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </AdminLayout>
 </template>

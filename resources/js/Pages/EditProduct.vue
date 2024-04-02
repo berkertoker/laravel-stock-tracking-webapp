@@ -26,13 +26,21 @@ const pond = ref(null);
 const files = ref([]);
 const csrf = computed(() => page.props.csrf_token);
 
+const props = defineProps({
+  product: Object,
+
+});
+
 const form = useForm({
-    name: "",
-    price: "",
-    stock: "",
-    description: "",
+    id : props.product.id,
+    name: props.product.name,
+    price: props.product.price,
+    stock: props.product.stock.amount,
+    description: props.product.description,
+    // existingFiles: props.product.productImages,
     images: [],
 });
+
 
 function handleFilePondLoad(response){
     form.images.push(response);
@@ -44,6 +52,9 @@ function handleFilePondRevert(uniqueId, load, error){
     error('oh my goodness');
     load();
 }
+function removeExistingImage(id){
+    router.delete('/product/'+id)
+}
 </script>
 
 <template>
@@ -53,7 +64,7 @@ function handleFilePondRevert(uniqueId, load, error){
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                     <Head title="Store the Post" />
 
-                    <form @submit.prevent="form.post(route('products.store'))">
+                    <form @submit.prevent="form.put(route('products.update',form.id))">
 
                         <div>
                             <InputLabel for="name" value="Name" />
@@ -111,6 +122,18 @@ function handleFilePondRevert(uniqueId, load, error){
 
                             <InputError class="mt-2" :message="form.errors.description" />
                         </div>
+
+
+                        <!-- <div class="mt-4">
+                            <h3>Existing Images</h3>
+                            <ul>
+                                <li v-for="image in form.existingFiles" :key="image.id">
+                                <img :src="image.url" alt="Existing Image">
+                                <img :src="'storage/images/'+image.url" alt="Existing Image">
+                                <button @click="removeExistingImage(image.id)">Remove</button>
+                                </li>
+                            </ul>
+                        </div> -->
                         <div class="mt-4">
                             <file-pond
                                 id="image"
@@ -141,7 +164,7 @@ function handleFilePondRevert(uniqueId, load, error){
                                 :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing"
                             >
-                                Create Product
+                                Edit Product
                             </PrimaryButton>
                         </div>
                     </form>
@@ -150,3 +173,4 @@ function handleFilePondRevert(uniqueId, load, error){
         </div>
     </ManagerLayout>
 </template>
+

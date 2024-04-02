@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import ManagerLayout from '@/Layouts/ManagerLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -19,7 +19,7 @@ const form = useForm({
 </script>
 
 <template>
-    <AuthenticatedLayout>
+    <ManagerLayout>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
@@ -92,5 +92,5 @@ const form = useForm({
                 </div>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </ManagerLayout>
 </template>

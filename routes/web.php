@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Manager\DeleteTemporaryImageController;
+use App\Http\Controllers\Manager\ImageController;
 use App\Http\Controllers\Manager\ProductController;
+use App\Http\Controllers\Manager\UploadTemporaryImageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -23,11 +26,13 @@ Route::get('/dashboard', function () {
 Route::middleware('auth', 'verified', 'admin')->group(function () {
     Route::resource('admindashboard', AdminController::class);
 });
+
 Route::middleware('auth', 'verified', 'manager')->group(function () {
     Route::resource('products', ProductController::class);
+    Route::post('/upload', UploadTemporaryImageController::class);
+    Route::delete('/revert/{uniqueId}', DeleteTemporaryImageController::class);
+    Route::delete('/product/{id}', ImageController::class);
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
