@@ -1,11 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import { ref } from 'vue';
-const sayi = ref(0);
-const say = ()=> {
-    sayi.value = sayi.value +1;
-}
+
 </script>
 
 <template>
@@ -20,7 +16,6 @@ const say = ()=> {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">You're logged in!  {{ sayi }}</div>
-                    <button @click="say">Say</button>
                 </div>
             </div>
         </div>
