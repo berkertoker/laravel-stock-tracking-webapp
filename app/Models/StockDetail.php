@@ -5,20 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductImages extends Model
+class StockDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'image_name' ,'url'];
-
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $fillable = ['stock_id', 'product_name', 'quantity'];
 
     /**
      * Get the company that owns the price.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function product()
+    public function stock()
     {
-        return $this->belongsTo(Products::class, 'product_id');
+        return $this->belongsTo(Stock::class);
     }
 }

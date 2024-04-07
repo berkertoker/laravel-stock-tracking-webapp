@@ -23,9 +23,7 @@ class Manager
             if(Auth::user()->usertype == 'admin'){
                 return $next($request);
             }
-            else if(Auth::user()->usertype == 'user'){
-                return redirect('dashboard');
-            }
+            abort(403);
         }
 
         return $next($request);

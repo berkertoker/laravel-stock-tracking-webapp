@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import ManagerLayout from '@/Layouts/ManagerLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
@@ -38,27 +38,27 @@ const form = useForm({
     stock: props.product.stock.amount,
     description: props.product.description,
     // existingFiles: props.product.productImages,
-    images: [],
+    // images: [],
 });
 
 
-function handleFilePondLoad(response){
-    form.images.push(response);
-    return response;
-}
-function handleFilePondRevert(uniqueId, load, error){
-    form.images = form.images.filter((image) => image !== uniqueId);
-    router.delete("/revert/"+uniqueId);
-    error('oh my goodness');
-    load();
-}
-function removeExistingImage(id){
-    router.delete('/product/'+id)
-}
+// function handleFilePondLoad(response){
+//     form.images.push(response);
+//     return response;
+// }
+// function handleFilePondRevert(uniqueId, load, error){
+//     form.images = form.images.filter((image) => image !== uniqueId);
+//     router.delete("/revert/"+uniqueId);
+//     error('oh my goodness');
+//     load();
+// }
+// function removeExistingImage(id){
+//     router.delete('/product/'+id)
+// }
 </script>
 
 <template>
-    <ManagerLayout>
+    <AuthenticatedLayout>
         <div class="py-12">
             <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
@@ -134,7 +134,7 @@ function removeExistingImage(id){
                                 </li>
                             </ul>
                         </div> -->
-                        <div class="mt-4">
+                        <!-- <div class="mt-4">
                             <file-pond
                                 id="image"
                                 name="image"
@@ -156,7 +156,7 @@ function removeExistingImage(id){
                                     },
                                 }"
                             />
-                        </div>
+                        </div> -->
 
                         <div class="flex items-center justify-end mt-4">
                             <PrimaryButton
@@ -171,6 +171,6 @@ function removeExistingImage(id){
                 </div>
             </div>
         </div>
-    </ManagerLayout>
+    </AuthenticatedLayout>
 </template>
 

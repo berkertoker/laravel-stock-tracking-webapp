@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Products;
-use App\Models\Stocks;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -16,7 +15,7 @@ class ProductSeeder extends Seeder
     {
         $products = [];
 
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 180; $i++) {
             $products[] = [
                 'name' => fake()->name(),
                 'description' => fake()->text(50),
@@ -24,23 +23,23 @@ class ProductSeeder extends Seeder
             ];
         }
 
-        Products::insert($products);
+        Product::insert($products);
 
         $this->command->info("Company " . count($products) . " created");
 
-        $products = Products::all()->pluck(['id']);
+        $products = Product::all()->pluck(['id']);
 
         $stocks = [];
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 180; $i++) {
             $stocks[] = [
                 'product_id' => $products[$i],
                 'amount' => fake()->numberBetween(100, 1000),
             ];
         }
 
-        Stocks::insert($stocks);
+        Stock::insert($stocks);
 
-        $this->command->info("Price " . count($products) . " created");
+        $this->command->info("Price " . count($stocks) . " created");
     }
 }
