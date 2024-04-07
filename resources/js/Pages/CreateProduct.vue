@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import ManagerLayout from '@/Layouts/ManagerLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
@@ -47,7 +47,7 @@ function handleFilePondRevert(uniqueId, load, error){
 </script>
 
 <template>
-    <ManagerLayout>
+    <AuthenticatedLayout>
         <div class="py-12">
             <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
@@ -148,5 +148,5 @@ function handleFilePondRevert(uniqueId, load, error){
                 </div>
             </div>
         </div>
-    </ManagerLayout>
+    </AuthenticatedLayout>
 </template>

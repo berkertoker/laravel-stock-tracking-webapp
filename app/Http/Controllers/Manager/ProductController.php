@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Manager;
 
-use App\Models\Products;
+use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Models\ProductImages;
-use App\Models\Stocks;
+use App\Models\ProductImage;
+use App\Models\Stock;
 use App\Models\TemporaryImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,12 +22,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Products::with('productImages', 'stock')->get();
+        $products = Product::with('productImage', 'stock')->paginate(10);
         // dd([
         //     'data' => $products
         // ]);
         return Inertia::render('Product', [
-            'products' => $products,
+            'products' => $products->items(),
+            'paginates' => $products
         ]);
     }
 
@@ -48,8 +49,8 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
 
-            $product =  Products::create($request->validated());
-            Stocks::create([
+            $product =  Product::create($request->validated());
+            Stock::create([
                 'product_id' => $product->id,
                 'amount' => $request->stock,
             ]);
@@ -57,7 +58,7 @@ class ProductController extends Controller
 
             foreach ($temporaryImages as $temporaryImage) {
                 Storage::copy('images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, 'public/images/' . $temporaryImage->folder . '/' . $temporaryImage->file);
-                ProductImages::create([
+                ProductImage::create([
                     'product_id' => $product->id,
                     'image_name' => $temporaryImage->file,
                     'url' => $temporaryImage->folder . '/' . $temporaryImage->file
@@ -70,7 +71,7 @@ class ProductController extends Controller
         }catch (\Throwable $th) {
             DB::rollBack();
 
-            return redirect()->back()->withErrors(['error' => 'Error while creating company : ' . $th->getMessage()]);
+            return redirect()->back()->withErrors(['error' => 'Error while creating product : ' . $th->getMessage()]);
         }
 
 
@@ -80,7 +81,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Products $product)
+    public function show(Product $product)
     {
         //
     }
@@ -88,9 +89,9 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Products $product)
+    public function edit(Product $product)
     {
-        $product->load('productImages', 'stock')->get();
+        $product->load('productImage', 'stock')->get();
 
         return Inertia::render('EditProduct', [
             'product' => $product,
@@ -100,43 +101,43 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Products $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
         try {
             DB::beginTransaction();
 
             $product->update($request->all());
 
-            if ($request->has('stock')) {
-                $product->stock->update([
-                    'amount' => $request->stock,
-                ]);
-            }
 
-            $temporaryImages = TemporaryImage::whereIn('folder', $request->images)->get();
+            $product->stock->update([
+                'amount' => $request->stock,
+            ]);
 
-            foreach ($temporaryImages as $temporaryImage) {
-                Storage::copy('images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, 'public/images/' . $temporaryImage->folder . '/' . $temporaryImage->file);
 
-                ProductImages::create([
-                    'product_id' => $product->id,
-                    'image_name' => $temporaryImage->file,
-                    'url' => $temporaryImage->folder . '/' . $temporaryImage->file
-                ]);
+            // $temporaryImages = TemporaryImage::whereIn('folder', $request->images)->get();
 
-                // $product->productImages->update([
-                //     'image_name' => $temporaryImage->file,
-                //     'url' => $temporaryImage->folder . '/' . $temporaryImage->file,
-                // ]);
-                Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
-                $temporaryImage->delete();
-            }
+            // foreach ($temporaryImages as $temporaryImage) {
+            //     Storage::copy('images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, 'public/images/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+
+            //     ProductImage::create([
+            //         'product_id' => $product->id,
+            //         'image_name' => $temporaryImage->file,
+            //         'url' => $temporaryImage->folder . '/' . $temporaryImage->file
+            //     ]);
+
+            //     // $product->productImages->update([
+            //     //     'image_name' => $temporaryImage->file,
+            //     //     'url' => $temporaryImage->folder . '/' . $temporaryImage->file,
+            //     // ]);
+            //     Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
+            //     $temporaryImage->delete();
+            // }
 
             DB::commit();
         }catch (\Throwable $th) {
             DB::rollBack();
 
-            return redirect()->back()->withErrors(['error' => 'Error while creating company : ' . $th->getMessage()]);
+            return redirect()->back()->withErrors(['error' => 'Error while updating product : ' . $th->getMessage()]);
         }
 
         return Redirect::route('products.index');
@@ -145,7 +146,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Products $product)
+    public function destroy(Product $product)
     {
         $product->delete();
     }

@@ -1,23 +1,26 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Manager\DeleteTemporaryImageController;
 use App\Http\Controllers\Manager\ImageController;
 use App\Http\Controllers\Manager\ProductController;
+use App\Http\Controllers\Manager\StockController;
 use App\Http\Controllers\Manager\UploadTemporaryImageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::redirect('/', '/login');
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -28,10 +31,14 @@ Route::middleware('auth', 'verified', 'admin')->group(function () {
 });
 
 Route::middleware('auth', 'verified', 'manager')->group(function () {
+    //product
     Route::resource('products', ProductController::class);
     Route::post('/upload', UploadTemporaryImageController::class);
     Route::delete('/revert/{uniqueId}', DeleteTemporaryImageController::class);
     Route::delete('/product/{id}', ImageController::class);
+
+    //stock
+    Route::resource('stocks', StockController::class);
 });
 
 Route::middleware('auth')->group(function () {

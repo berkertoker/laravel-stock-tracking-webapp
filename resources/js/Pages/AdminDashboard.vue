@@ -1,5 +1,5 @@
 <script setup>
-import AdminLayout from '@/Layouts/AdminLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {router} from '@inertiajs/vue3'
 
 function destroy(id){
@@ -8,7 +8,7 @@ function destroy(id){
 </script>
 
 <template>
-  <AdminLayout>
+  <AuthenticatedLayout>
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
         <div class="user-table">
             <div class="user-table-section">
@@ -82,7 +82,7 @@ function destroy(id){
             </div>
         </div>
     </div>
-  </AdminLayout>
+  </AuthenticatedLayout>
 </template>
 
 <script>

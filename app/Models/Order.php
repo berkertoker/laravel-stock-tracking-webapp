@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Orders extends Model
+class Order extends Model
 {
     use HasFactory;
 
@@ -26,8 +26,8 @@ class Orders extends Model
      * Get the company that owns the price.
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function orderItems()
+    public function orderItem()
     {
-        return $this->hasOne(OrderItems::class);
+        return $this->hasOne(OrderItem::class);
     }
 }

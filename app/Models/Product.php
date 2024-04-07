@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Products extends Model
+class Product extends Model
 {
     use HasFactory;
 
@@ -17,9 +17,9 @@ class Products extends Model
      * Get the company that owns the price.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function productImages()
+    public function productImage()
     {
-        return $this->hasMany(ProductImages::class, 'product_id');
+        return $this->hasMany(ProductImage::class);
     }
 
     /**
@@ -28,7 +28,7 @@ class Products extends Model
      */
     public function stock()
     {
-        return $this->hasOne(Stocks::class, 'product_id');
+        return $this->hasOne(Stock::class);
     }
 
 
@@ -38,6 +38,6 @@ class Products extends Model
      */
     public function orderItem()
     {
-        return $this->hasOne(OrderItems::class);
+        return $this->hasOne(OrderItem::class);
     }
 }

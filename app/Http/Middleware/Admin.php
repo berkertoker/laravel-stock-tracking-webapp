@@ -20,12 +20,7 @@ class Admin
             return redirect('login');
         }
         else if(Auth::user()->usertype != 'admin'){
-            if(Auth::user()->usertype == 'manager'){
-                return redirect('products');
-            }
-            else if(Auth::user()->usertype == 'user'){
-                return redirect('dashboard');
-            }
+            abort(403);
         }
 
         return $next($request);
