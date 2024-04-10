@@ -40,7 +40,7 @@ function destroy(product){
                         <span v-if="product.stock">{{ product.stock.amount }}</span>
                     </td>
                     <td>
-                        <a :href="route('products.edit',products)" class="edit-btn">Edit</a>
+                        <a :href="route('products.edit',product)" class="edit-btn">Edit</a>
                         <button @click.prevent="destroy(product.id)" class="delete-btn">Delete</button>
                     </td>
                     </tr>
